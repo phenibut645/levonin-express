@@ -1,6 +1,3 @@
-import dotenv from 'dotenv';
-dotenv.config();
-console.log(process.env);
 import express, { Request, Response } from "express";
 import pool from "./config/db.js";
 import userRoutes from './routes/usersRoutes.js'

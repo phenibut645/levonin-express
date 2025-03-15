@@ -1,10 +1,11 @@
 import mysql from "mysql2/promise";
-
+import config from "../../../config.json" assert {type: "json"};
+console.log(config);
 const pool = mysql.createPool({
-    host: process.env.HOST,
-    user: process.env.USER,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE,
+    host: config.HOST,
+    user: config.USER,
+    password: config.PASSWORD,
+    database: config.DATABASE,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
