@@ -2,3 +2,4 @@
 *.env*
 express-app/node_modules/*
 express-app/dist/*
+config.json
