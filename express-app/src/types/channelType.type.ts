@@ -1,0 +1,1 @@
+export type ChannelType = "group" | "private" | "game";

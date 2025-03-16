@@ -22,7 +22,7 @@ export const generateToken = async (userId: number): Promise<TokenStructure> => 
     const token = crypto.randomBytes(32).toString("hex");
     const createdAt = DateTime.now().toISO();
 
-    await pool.query("INSERT INTO tokens(TOKEN, created_at) VALUES (?, ?, ?)", [token, createdAt, userId])
+    await pool.query("INSERT INTO tokens(TOKEN, created_at, user_id) VALUES (?, ?, ?)", [token, createdAt, userId])
     return { token, createdAt, userId };
 };
 

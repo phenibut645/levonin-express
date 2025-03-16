@@ -1,10 +1,11 @@
 import express from "express";
-import pool from "./config/db.js";
 import userRoutes from './routes/usersRoutes.js'
 import emojiRoutes from './routes/emojiRoutes.js'
 import cors from "cors";
 import cron from "node-cron";
 import { authMiddleware } from "./middlewares/authMiddleware.js";
+import channelsRoutes from "./routes/channelsRoutes.js";
+import { authorizeController } from "./controllers/authorizzeController.js";
 
 
 cron.schedule('*/1 * * * *', async () => {
@@ -30,9 +31,12 @@ const PORT = 4000;
 
 app.use(cors());
 app.use(express.json());
-app.use('/api/users', authMiddleware, userRoutes)
-app.use('/api/emojies', emojiRoutes)
+
+app.use('/api/users', authMiddleware, userRoutes);
+app.use('/api/emojies', emojiRoutes);
+app.use('/api/channels', authMiddleware, channelsRoutes);
+app.post('/api/authorize', authorizeController)
 
 app.listen(PORT, () => {
-    console.log("Server running")
+    console.log("Server running");
 })
