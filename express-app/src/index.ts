@@ -32,7 +32,7 @@ const PORT = 4000;
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/users', authMiddleware, userRoutes);
+app.use('/api/users', userRoutes);
 app.use('/api/emojies', emojiRoutes);
 app.use('/api/channels', authMiddleware, channelsRoutes);
 app.post('/api/authorize', authorizeController)

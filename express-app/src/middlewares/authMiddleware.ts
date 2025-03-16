@@ -8,6 +8,7 @@ declare module "express"{
 }
 
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    
     try{
         const authHeader = req.headers.authorization;
         if(!authHeader || !authHeader.startsWith("Bearer ")){

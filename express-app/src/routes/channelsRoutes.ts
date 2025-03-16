@@ -1,11 +1,12 @@
 import { Router } from "express";
 import { channelAuth } from "../middlewares/channelAuth.middleware.js";
-import { getMessagesController } from "../controllers/messages/getMessages.controller.js";
-import { getChannelsController } from "../controllers/messages/getChannels.controller.js";
+import { getMessagesController } from "../controllers/channels/getMessages.controller.js";
+import { secretKeyAuthMiddleware } from "../middlewares/secretKeyAuthMiddleware.js";
+import { getChannelsController } from "../controllers/channels/getChannels.controller.js";
 
 const router = Router();
 
 router.get('/:channel_id/messages', channelAuth, getMessagesController);
-router.get('/', getChannelsController);
+router.get('/', secretKeyAuthMiddleware, getChannelsController)
 
 export default router;

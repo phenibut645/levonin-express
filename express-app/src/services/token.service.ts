@@ -40,9 +40,11 @@ export const verifyToken = async (token: string): Promise<VerifyTokenResponse> =
         if(expired){
             await pool.query("DELETE FROM tokens WHERE id = ?", [rows[0].id]);
         }
+        
     }
     catch(err: unknown){
         verifyTokenResponse.error = "Database error";
     }
+    console.log(verifyTokenResponse);
     return verifyTokenResponse;
 }

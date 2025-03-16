@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import pool from "../../config/db.js";
-import { ChannelMessage } from "../../types/channelMessage.type";
+import { ChannelMessage } from "../../types/channelMessage.type.js";
 import { RowDataPacket } from "mysql2";
 
 export const getMessagesController = async (req: Request, res: Response): Promise<void> => {
