@@ -7,7 +7,7 @@ import { generateToken } from "../services/token.service.js";
 export const authorizeController = async (req: Request, res: Response) => {
     const { username, password } = req.query;
     if(username && password){
-        const [rows] = await pool.query<(User & RowDataPacket)[]>("SELECT * FROM users WHERE name = ? AND password = ?", [username, password]);
+        const [rows] = await pool.query<(User & RowDataPacket)[]>("SELECT * FROM Users WHERE Username = ? AND PasswordHash = ?", [username, password]);
         if(rows.length){
             try{
                 const tokenStructure = await generateToken(rows[0].id);

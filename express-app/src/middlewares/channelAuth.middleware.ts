@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express"
 import { isUserInChannel } from "../services/channel.service.js";
 
 export const channelAuth = async (req: Request, res: Response, next: NextFunction) => {
-    if(Object.hasOwn(req, "user") && req.user){
+    if(req.user){
         console.log("user id:", req.user.id);
         const { channel_id } = req.params;
         const { id } = req.user;

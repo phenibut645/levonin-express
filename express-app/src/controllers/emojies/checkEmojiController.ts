@@ -14,7 +14,7 @@ export const checkEmojiController = async (req: Request, res: Response): Promise
         return;
     }
     try{
-        const [rows] = await pool.query<(Emoji & RowDataPacket)[]>('SELECT id FROM emojies WHERE tag = ?', [tag]);
+        const [rows] = await pool.query<(Emoji & RowDataPacket)[]>('SELECT VisualID FROM MessagingVisuals WHERE tag = ?', [tag]);
         const message: EmojiCheckResponse = {
             exists: rows.length > 0 
         }

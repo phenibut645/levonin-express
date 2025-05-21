@@ -3,7 +3,7 @@ import pool from "../config/db.js";
 
 export const getUsers = async (req: Request, res: Response) => {
     try{
-        const [rows] = await pool.query("SELECT * FROM users");
+        const [rows] = await pool.query("SELECT * FROM Users");
         res.json(rows);
     }
     catch(err: unknown){

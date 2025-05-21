@@ -6,7 +6,7 @@ import { RowDataPacket } from "mysql2";
 export const getMessagesController = async (req: Request, res: Response): Promise<void> => {
     try{
         const {channel_id} = req.params;
-        const [rows] = await pool.query<(ChannelMessage & RowDataPacket)[]>("SELECT * FROM channel_messages WHERE channel_id = ?", channel_id);
+        const [rows] = await pool.query<(ChannelMessage & RowDataPacket)[]>("SELECT * FROM ChatMessages WHERE ChatID = ?", channel_id);
         await res.json({messages: rows});
     }
     catch(err: unknown){

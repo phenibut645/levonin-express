@@ -17,7 +17,7 @@ export const getEmojiLinkController = async (req: Request, res: Response): Promi
     }
 
     try{
-        const [rows] = await pool.query<(Emoji & RowDataPacket)[]>("SELECT id, file_name, tag FROM emojies WHERE tag = ?", [tag]);
+        const [rows] = await pool.query<(Emoji & RowDataPacket)[]>("SELECT VisaulID, VisualPath, Tag FROM MessagingVisauls WHERE Tag = ?", [tag]);
         if(rows.length){
             const response: GetEmojiLinkResponse = {
                 link: emojiesPath + "/" + rows[0].file_name
