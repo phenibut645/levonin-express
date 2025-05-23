@@ -30,6 +30,6 @@ export const getEmojiLinkController = async (req: Request, res: Response): Promi
     }
     catch(err: unknown){
         console.error(err);
-        await res.status(500).json({error: "Database error"})
+        await res.status(500).json({error: "Database error3"})
     }
 };

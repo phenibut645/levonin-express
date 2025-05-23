@@ -22,6 +22,6 @@ export const checkEmojiController = async (req: Request, res: Response): Promise
     }
     catch(err: unknown){
         console.error(err);
-        await res.status(500).json({error: "Database error"})
+        await res.status(500).json({error: "Database error4"})
     }
 };

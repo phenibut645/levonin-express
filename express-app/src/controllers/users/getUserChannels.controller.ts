@@ -10,7 +10,7 @@ interface GetChannelsResponse {
 export const getUserChannelsController = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.user!;
     try{
-        const [rows] = await pool.query<(ChannelUser & RowDataPacket)[]>("SELECT * FROM channel_users WHERE user_id = ?", [id]);
+        const [rows] = await pool.query<(ChannelUser & RowDataPacket)[]>("SELECT * FROM Users WHERE UserId = ?", [id]);
         const response: GetChannelsResponse = {
             channels: rows
         }

@@ -4,11 +4,12 @@ import { verifyToken, VerifyTokenResponse } from "../services/token.service.js";
 declare module "express"{
     export interface Request{
         user?:{id:string};
+        reason?: string
     }
 }
 
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    
+    console.log("ja cho pidor")
     try{
         const authHeader = req.headers.authorization;
         if(!authHeader || !authHeader.startsWith("Bearer ")){
@@ -33,6 +34,6 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
     }
     catch(err: unknown){
         console.error(err);
-        res.status(500).json({error:"Database error"});
+        res.status(500).json({error:"Database error2"});
     }
 }

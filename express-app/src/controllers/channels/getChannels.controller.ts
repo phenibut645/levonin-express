@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import pool from "../../config/db"
+import pool from "../../config/db.js"
 import { Channel } from "../../types/channel.types";
 import { RowDataPacket } from "mysql2";
 

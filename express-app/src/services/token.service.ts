@@ -43,7 +43,7 @@ export const verifyToken = async (token: string): Promise<VerifyTokenResponse> =
         
     }
     catch(err: unknown){
-        verifyTokenResponse.error = "Database error";
+        verifyTokenResponse.error = "Database error1";
     }
     console.log(verifyTokenResponse);
     return verifyTokenResponse;
