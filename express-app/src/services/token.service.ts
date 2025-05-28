@@ -21,7 +21,7 @@ export interface VerifyTokenResponse {
 export const generateToken = async (userId: number): Promise<TokenStructure> => {
     const token = crypto.randomBytes(32).toString("hex");
     const createdAt = DateTime.now().toISO();
-
+    await pool.query("DELETE FROM UserTokens WHERE UserID = ?", [userId]);
     await pool.query("INSERT INTO UserTokens(Token, CreatedAt, UserID) VALUES (?, ?, ?)", [token, createdAt, userId])
     return { token, createdAt, userId };
 };
@@ -31,14 +31,14 @@ export const verifyToken = async (token: string): Promise<VerifyTokenResponse> =
     try{
         const [rows] = await pool.query<(Token & RowDataPacket)[]>("SELECT * FROM UserTokens WHERE Token = ?", [token]);
         const exists = rows.length > 0;
-        const expired = exists ? DateTime.fromISO(rows[0].created_at).diffNow("minutes").minutes > token_expiration_time : null;
+        const expired = exists ? DateTime.fromISO(rows[0].CreatedAt).diffNow("minutes").minutes > token_expiration_time : null;
 
         verifyTokenResponse.exists = exists;
         verifyTokenResponse.expired = expired;
-        verifyTokenResponse.userId = exists ? rows[0].user_id : null;
+        verifyTokenResponse.userId = exists ? rows[0].UserID : null;
 
         if(expired){
-            await pool.query("DELETE FROM UserTokens WHERE UserTokenID = ?", [rows[0].id]);
+            await pool.query("DELETE FROM UserTokens WHERE UserTokenID = ?", [rows[0].UserTokenID]);
         }
         
     }

@@ -1,6 +1,8 @@
 export interface User{
-    id: number,
-    name: string,
-    status_id: number,
-    password: string
+    UserID: number,
+    Username: string,
+    Email: string,
+    PasswordHash: string,
+    RoleID: number,
+    UserStatusID: number
 }

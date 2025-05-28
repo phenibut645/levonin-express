@@ -1,6 +1,9 @@
 export interface ChannelUser {
-    id: number,
-    channel_id: number,
-    user_id: number,
-    status: number
+    ChatID: number,
+    ChatName: string,
+    IsChatCreator: number,
+    UserID: number,
+    ImageUrl: string,
+    ChatType: string,
+    Status?: string
 }

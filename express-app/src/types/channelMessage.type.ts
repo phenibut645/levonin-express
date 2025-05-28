@@ -1,6 +1,7 @@
 export interface ChannelMessage {
-    id: number,
-    channel_id: number,
-    user_id: number,
-    message: string
+    ChatMessageID: number,
+    Content: string,
+    CreatedAt: number,
+    ChatID: number,
+    UserID: number
 }

@@ -27,6 +27,7 @@ CREATE TABLE Chats(
     ChatID int primary key AUTO_INCREMENT,
     ChatName varchar(25),
     ChatTypeID int,
+    ImageUrl text,
     FOREIGN KEY (ChatTypeID) REFERENCES ChatTypes(ChatTypeID)
     );
     

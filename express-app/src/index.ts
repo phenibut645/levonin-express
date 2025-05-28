@@ -6,7 +6,7 @@ import cron from "node-cron";
 import { authMiddleware } from "./middlewares/authMiddleware.js";
 import channelsRoutes from "./routes/channelsRoutes.js";
 import { authorizeController } from "./controllers/authorizzeController.js";
-
+import { Request, Response } from "express";
 
 cron.schedule('*/1 * * * *', async () => {
     const response = await fetch("https://api.opendota.com/api/heroes", {
@@ -27,7 +27,7 @@ cron.schedule('*/1 * * * *', async () => {
 })
 
 const app = express();
-const PORT = 4000;
+const PORT = 3000;
 
 app.use(cors());
 app.use(express.json());
@@ -36,7 +36,10 @@ app.use('/api/users', userRoutes);
 app.use('/api/emojies', emojiRoutes);
 app.use('/api/channels', authMiddleware, channelsRoutes);
 app.post('/api/authorize', authorizeController)
+app.get('/', (req: Request, res:Response) => {
+    res.send("working");
+});
 
-app.listen(PORT, () => {
+app.listen(PORT, "localhost", () => {
     console.log("Server running");
 })
