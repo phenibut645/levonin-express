@@ -15,16 +15,16 @@ export const searchUsers = async (req: Request, res: Response): Promise<void> =>
       const connection = await pool.getConnection();
   
       const [users] = await connection.execute(`
-        SELECT *, 
+        SELECT UserID, Username, UserStatusID, 
           CASE 
-            WHEN username = ? THEN 0
-            WHEN username LIKE ? THEN 1
-            WHEN username LIKE ? THEN 2
+            WHEN Username = ? THEN 0
+            WHEN Username LIKE ? THEN 1
+            WHEN Username LIKE ? THEN 2
             ELSE 3
           END AS relevance
-        FROM users
-        WHERE username LIKE ?
-        ORDER BY relevance ASC, username ASC
+        FROM Users
+        WHERE Username LIKE ?
+        ORDER BY relevance ASC, Username ASC
         LIMIT 50
       `, [
         nickname,
@@ -35,7 +35,7 @@ export const searchUsers = async (req: Request, res: Response): Promise<void> =>
   
       connection.release();
   
-      res.json(users);
+      res.json({response: {success:true, users: users}});
     } catch (err) {
       console.error('Error while searching users:', err);
       res.status(500).json({ error: 'Internal server error' });
