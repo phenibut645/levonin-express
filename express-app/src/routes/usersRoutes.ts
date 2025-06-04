@@ -6,11 +6,13 @@ import { secretKeyAuthMiddleware } from '../middlewares/secretKeyAuthMiddleware.
 import { body, validationResult } from 'express-validator';
 import { addUser } from '../controllers/users/addUser.controller.js';
 import { checkUsername } from '../controllers/users/checkUsername.controller.js';
+import { searchUsers } from '../controllers/users/getUsers.controller.js';
 
 
 const router = Router();
 
 router.get('/', secretKeyAuthMiddleware, getUsers);
+router.get('/:username', searchUsers);
 router.get('/channels', authMiddleware, getUserChannelsController);
 router.get('/check-username/:username', checkUsername)
 router.post('/add', addUser)
