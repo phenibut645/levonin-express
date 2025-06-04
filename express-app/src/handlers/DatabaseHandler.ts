@@ -1,7 +1,7 @@
 import { RowDataPacket } from "mysql2";
 import pool from "../config/db.js";
 import { User } from "../types/user.type";
-import { defaultUserRoleId, defaultUserStatusId } from "../config/configData.js";
+import { defaultUserRoleId, defaultUserStatusId, user } from "../config/configData.js";
 import { EncryptionHandler } from "./EncryptionHandler.js";
 
 interface DBHandlerResponse<T> {
@@ -89,4 +89,101 @@ export class DatabaseHandler {
             return {success: false, response: null, error: errorMsg};
         }
     }
+    static async CheckToken(token: string): Promise<DBHandlerResponse<boolean>>{
+        let errorMsg = "Unknown error";
+        let response = false;
+        try{
+            const [rows] = await pool.query<(number & RowDataPacket)[]>("SELECT UserTokenID FROM UserTokens WHERE Token = ?", [token]);
+            if(rows.length) response = true;
+            return {success: true, response}
+        }
+        catch(err: unknown){
+            console.log(err);
+
+            if(typeof err == "string") errorMsg = err;
+            else if(err instanceof Error) errorMsg = err.message;
+
+            return {success: false, response: false, error: errorMsg};
+        }
+    }
+    static async IsUserToken(token: string, userId: number){
+        let errorMsg = "Unknown error";
+        let response = false;
+        try{
+            const [rows] = await pool.query<(number & RowDataPacket)[]>("SELECT UserTokenID FROM UserTokens WHERE Token = ? AND UserID = ?", [token, userId]);
+            if(rows.length) response = true;
+            return {success: true, response}
+        }
+        catch(err: unknown){
+            console.log(err);
+
+            if(typeof err == "string") errorMsg = err;
+            else if(err instanceof Error) errorMsg = err.message;
+
+            return {success: false, response: false, error: errorMsg};
+        }
+    }
+
+    static async GetUsersInChannel(channel_id: number){
+        let errorMsg = "Unknown error";
+        try{
+            const [rows] = await pool.query<(number & RowDataPacket)[]>("SELECT UserID FROM ChatUsers WHERE ChatID = ?", [channel_id]);
+            return {success: true, response: rows}
+        }
+        catch(err: unknown){
+            console.log(err);
+
+            if(typeof err == "string") errorMsg = err;
+            else if(err instanceof Error) errorMsg = err.message;
+
+            return {success: false, error: errorMsg};
+        }
+    }
+
+    static async GetUserId(username: string){
+        let errorMsg = "Unknown error";
+        try{
+            const [rows] = await pool.query<(number & RowDataPacket)[]>("SELECT UserID FROM Users WHERE Username = ?", [username]);
+            return {success: true, response: rows.length ? rows[0]["UserID"] : null}
+        }
+        catch(err: unknown){
+            console.log(err);
+            if(typeof err === "string") errorMsg = err;
+            else if(err instanceof Error) errorMsg = err.message;
+
+            return {success:false, error: errorMsg}
+        }
+    }
+    static async SendMessage(content: string, userId: number, chatId: number): Promise<DBHandlerResponse<boolean>>{
+        let errorMsg = "Unknown error";
+        try{
+
+            await pool.query<(number & RowDataPacket)[]>("INSERT INTO ChatMessages(Content, CreatedAt, ChatID, UserID) VALUES (?, ?, ?, ?)", [content, new Date().toISOString(), chatId, userId]);
+            return {success: true, response: true}
+        }
+        catch(err: unknown){
+            console.log(err);
+            if(typeof err === "string") errorMsg = err;
+            else if(err instanceof Error) errorMsg = err.message;
+            return {success:false, response: false, error: errorMsg}
+        }
+    }
 }
+
+// Example of method
+
+// let errorMsg = "Unknown error";
+// let response = false;
+// try{
+//     const [rows] = await pool.query<(number & RowDataPacket)[]>("SELECT UserTokenID FROM UserTokens WHERE Token = ? AND UserID = ?", [token, userId]);
+//     if(rows.length) response = true;
+//     return {success: true, response}
+// }
+// catch(err: unknown){
+//     console.log(err);
+
+//     if(typeof err == "string") errorMsg = err;
+//     else if(err instanceof Error) errorMsg = err.message;
+
+//     return {success: false, response: false, error: errorMsg};
+// }

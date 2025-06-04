@@ -7,6 +7,8 @@ import { authMiddleware } from "./middlewares/authMiddleware.js";
 import channelsRoutes from "./routes/channelsRoutes.js";
 import { authorizeController } from "./controllers/authorizzeController.js";
 import { Request, Response } from "express";
+import { secretKeyAuthMiddleware } from "./middlewares/secretKeyAuthMiddleware.js";
+import { getUsersInChannel } from "./controllers/channels/getUsersInChannel.controller.js";
 
 cron.schedule('*/1 * * * *', async () => {
     const response = await fetch("https://api.opendota.com/api/heroes", {
@@ -34,7 +36,9 @@ app.use(express.json());
 
 app.use('/api/users', userRoutes);
 app.use('/api/emojies', emojiRoutes);
+app.get('/api/channels/:channel_id', secretKeyAuthMiddleware, getUsersInChannel)
 app.use('/api/channels', authMiddleware, channelsRoutes);
+
 app.post('/api/authorize', authorizeController)
 app.get('/', (req: Request, res:Response) => {
     res.send("working");
